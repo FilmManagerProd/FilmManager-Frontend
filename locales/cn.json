@@ -1,0 +1,324 @@
+{
+	"navbar": {
+		"navbarChangeLanguage": "切换语言",
+        "languageSwitchTooltip": "点击我切换语言"
+	},
+	"profile": {
+		"profile": "个人资料"
+	},
+	"auth": {
+		"login": "登录",
+		"register": "注册",
+		"welcomeToFilmManager": "欢迎使用 FilmManager",
+		"pleaseLogin": "请登录或创建帐户以访问您的个人资料并管理您的内容。",
+		"loginOrRegister": "登录 / 注册",
+		"enterUsername": "请输入用户名（至少3个字符）",
+		"enterEmail": "请输入邮箱",
+		"emailRequired": "请输入邮箱",
+		"email": "邮箱",
+		"password": "密码",
+		"enterPassword": "请输入密码",
+		"invalidEmail": "邮箱格式不正确",
+		"passwordRequired": "请输入密码",
+		"passwordLength": "密码长度至少为12位",
+		"passwordUppercase": "必须包含大写字母",
+		"passwordNumber": "必须包含数字",
+		"passwordSpecial": "必须包含特殊字符",
+		"usernameRequired": "请输入用户名",
+		"checkInputs": "请检查输入项",
+		"uhOh": "哎呀！",
+		"success": "成功！",
+		"loginSuccess": "登录成功",
+		"alreadyHaveAccount": "已有账号？点击登录",
+		"noAccount": "没有账号？点击注册",
+		"accessDenied": "访问被拒绝",
+		"notPermitted": "您无权访问该页面",
+		"failedToLoadUser": "无法加载用户数据。请重试。"
+	},
+	"account": {
+		"logoutSuccessTitle": "登出成功",
+		"logoutSuccessDesc": "您已成功登出。",
+		"logoutFailTitle": "哎呀！",
+		"username": "用户名",
+		"email": "电子邮件",
+		"pointsRemaining": "剩余积分",
+		"fetching": "正在获取...",
+		"fetchingPoints": "正在获取积分...",
+		"admin": "管理员",
+		"logout": "退出登录",
+		"filmManagerUser": "FilmManager 用户"
+	},
+	"greeting": {
+		"morning": "早上好",
+		"afternoon": "下午好",
+		"evening": "晚上好"
+	},
+	"adminTab": {
+		"scanner": "扫描",
+		"management": "管理"
+	},
+	"adminButton": {
+		"receive": "入库",
+		"dispatch": "出库",
+		"checkInfo": "查看物品信息",
+		"itemsManagement": "物品管理",
+		"userManagement": "用户管理"
+	},
+	"userManagement": {
+		"searchPlaceholder": "搜索用户…",
+		"loading": "加载用户…",
+		"noUsers": "未找到用户",
+		"confirmDeletion": "确认删除",
+		"deleteConfirmation": "您确定要删除此用户吗？此操作无法撤销。",
+		"cancel": "取消",
+		"delete": "删除",
+		"deleting": "正在删除…",
+		"fetchErrorTitle": "获取错误",
+		"fetchErrorDesc": "加载用户失败。请重试。",
+		"deleteSuccessTitle": "成功",
+		"deleteSuccessDesc": "用户已成功删除。",
+		"deleteFailedTitle": "删除失败",
+		"deleteFailedDesc": "删除用户失败。请重试。",
+		"table": {
+			"avatar": "头像",
+			"username": "用户名",
+			"email": "电子邮件",
+			"points": "积分",
+			"created": "加入时间",
+			"actions": "操作"
+		}
+	},
+	"itemsManagement": {
+		"groups": {
+			"all": "所有设备",
+			"available": "可用物品",
+			"unavailable": "不可用物品",
+			"consumable": "消耗品",
+			"rental": "租赁物"
+		},
+		"columns": {
+			"image": "图片",
+			"barcode": "条码",
+			"itemName": "名称",
+			"itemDescription": "描述",
+			"location": "位置",
+			"stock": "库存",
+			"points": "积分",
+			"actions": "操作"
+		},
+		"search": {
+			"placeholder": "搜索物品...",
+			"shortPlaceholder": "搜索"
+		},
+		"noItems": {
+			"title": "未找到物品",
+			"description": "请尝试调整搜索条件或分类筛选"
+		},
+		"deleteModal": {
+			"title": "确认删除",
+			"content": "您确定要删除此物品吗？此操作不可撤销。",
+			"cancel": "取消",
+			"confirm": "删除"
+		},
+		"editModal": {
+			"title": "编辑物品",
+			"barcode": "条码",
+			"itemName": "物品名称",
+			"itemDescription": "物品描述",
+			"itemGroup": "物品分类",
+			"location": "仓库位置",
+			"itemImage": "物品图片",
+			"itemCount": "库存数量",
+			"pointsToRedeem": "兑换所需积分",
+			"selectImage": "选择图片",
+			"cancel": "取消",
+			"save": "保存",
+			"validation": {
+				"barcode": "仅允许字母和数字，最多100个字符",
+				"itemName": "包含非法字符或过长，最多100个字符",
+				"itemDescription": "包含非法字符或过长，最多250个字符",
+				"location": "仅允许数字和短横线，最多20个字符",
+				"itemCount": "仅允许数字，最多6位",
+				"points": "仅允许数字，最多6位"
+			}
+		},
+		"unknownEditModal": {
+			"title": "添加新物品",
+			"barcode": "条码",
+			"itemName": "物品名称",
+			"itemDescription": "物品描述",
+			"itemGroup": "物品分类",
+			"selectGroupPlaceholder": "选择物品分类",
+			"location": "仓库位置",
+			"itemCount": "库存数量",
+			"pointsToRedeem": "兑换所需积分",
+			"validation": {
+				"barcode": "仅允许字母和数字，最多100个字符",
+				"itemName": "包含非法字符或过长，最多100个字符",
+				"itemDescription": "包含非法字符或过长，最多250个字符",
+				"location": "仅允许数字和短横线，最多20个字符",
+				"itemCount": "仅允许数字，最多6位",
+				"pointsToRedeem": "仅允许数字，最多6位"
+			},
+			"cancel": "取消",
+			"save": "保存"
+		},
+		"toast": {
+			"success": "成功",
+			"editSuccess": "物品更新成功",
+			"editError": "编辑失败",
+			"editErrorDesc": "无法更新物品，请重试",
+			"deleteSuccess": "物品删除成功",
+			"imageError": "图片上传失败",
+			"imageErrorDesc": "发生意外错误，请重试",
+			"deleteError": "删除失败",
+			"deleteErrorDesc": "无法删除条码，请重试"
+		},
+		"stockStatus": {
+			"low": "低库存",
+			"medium": "中库存",
+			"high": "高库存"
+		}
+	},
+	"userHomepage": {
+		"readyToExplore": "准备好探索惊人的奖励了吗？",
+		"availableRewards": "可用奖励",
+		"availableRewardsDesc": "浏览并使用您的积分兑换令人兴奋的奖励",
+		"myRewards": "我的奖励",
+		"myRewardsDesc": "查看您兑换的奖励",
+		"availablePoints": "可用积分:",
+		"points": "积分"
+	},
+	"scanner": {
+		"title": "扫描区域",
+		"placeholder": "在此扫描条码…",
+		"notice": "我们仅接受一维条码",
+		"radio": {
+			"receive": "入库",
+			"dispatch": "出库",
+			"info": "扫描信息"
+		},
+		"scannedResult": {
+			"lastScanned": "最近扫描："
+		},
+		"item": {
+			"unnamed": "未命名产品",
+			"noDescription": "无描述",
+			"unknownLocation": "未知位置"
+		},
+		"stock": "库存：{{count}}",
+		"requiredPoints": "所需积分：{{count}}",
+		"emptyState": {
+			"title": "扫描结果将显示在此处！"
+		},
+		"footer": {
+			"selectAll": "全选",
+			"unselectAll": "取消全选",
+			"clearAll": "清除全部",
+			"receive": "入库",
+			"dispatch": "出库",
+			"insufficientStock": "库存不足，无法出库。"
+		},
+		"modals": {
+			"receive": {
+				"title": "确认入库",
+				"body": "您确定要入库所有已选物品吗？",
+				"cancel": "取消",
+				"confirm": "确认"
+			},
+			"dispatch": {
+				"title": "确认出库",
+				"body": "您确定要出库所选物品吗？",
+				"note": "这将从可用库存中扣减出库数量。只有库存充足的物品会被出库。",
+				"cancel": "取消",
+				"confirm": "确认"
+			}
+		},
+		"toast": {
+			"socketErrorTitle": "Socket 连接错误",
+			"socketErrorDesc": "请检查您的网络连接并重试。",
+			"invalidBarcodeTitle": "无效条码",
+			"invalidBarcodeDesc": "不支持 2D 条码（如二维码）。",
+			"scannerErrorTitle": "扫描错误",
+			"scannerErrorServerDesc": "无法与服务器验证条码。",
+			"clearedTitle": "已清除",
+			"clearedDesc": "所有扫描结果已被移除。",
+			"itemsReceivedTitle": "物品已入库",
+			"itemsReceivedDesc": "已入库 {{count}} 个物品。",
+			"receiveErrorTitle": "入库错误",
+			"receiveErrorDesc": "部分物品入库失败。",
+			"dispatchErrorUnknownTitle": "出库错误",
+			"dispatchErrorUnknownDesc": "必须先入库未知物品，然后才能出库。",
+			"dispatchErrorStockTitle": "出库错误",
+			"dispatchErrorStockDesc": "选定物品库存不足，无法出库。",
+			"dispatchSuccessTitle": "出库成功",
+			"dispatchSuccessDesc": "已出库 {{count}} 件物品。",
+			"editErrorTitle": "编辑错误",
+			"editErrorDesc": "更新条码失败。请重试。"
+		}
+	},
+	"userRedeem": {
+		"header": {
+			"equipmentRedemption": "设备兑换",
+			"availablePoints": "可用积分: {{points}}"
+		},
+		"loading": "正在加载可用设备...",
+		"emptyState": "暂无可用设备",
+		"cart": {
+			"title": "购物车",
+			"emptyMessage": "您的购物车是空的。请添加商品。",
+			"browseEquipment": "浏览设备",
+			"total": "总计:",
+			"continueShopping": "继续购物",
+			"checkout": "结账",
+			"remove": "删除"
+		},
+		"product": {
+			"addToCart": "加入购物车",
+			"points": "{{points}} 积分",
+			"quantity": "数量: {{quantity}}",
+			"pts": "积分"
+		},
+		"checkout": {
+			"title": "结账",
+			"goBackCart": "返回购物车",
+			"orderSummary": "订单摘要",
+			"insufficientPoints": "积分不足 (剩余{{points}})",
+			"enoughPoints": "积分充足 (剩余{{points}})",
+			"proceed": "继续",
+			"nothingToCheckout": "您没有需要结账的内容。"
+		},
+		"confirm": {
+			"title": "确认兑换？",
+			"description": "您即将消耗 <strong>{{points}}</strong> 积分。",
+			"remaining": "兑换后您将剩余 <strong>{{points}}</strong> 积分。",
+			"cancel": "取消",
+			"placeOrder": "确认订单"
+		},
+		"toast": {
+			"success": {
+				"title": "成功!",
+				"description": "兑换成功！"
+			},
+			"error": {
+				"title": "哎呀！",
+				"generic": "出现错误，请重试。"
+			}
+		}
+	},
+	"userRewards": {
+        "header": {
+            "title": "我的奖励",
+            "availablePoints": "可用积分: {{points}}"
+        },
+        "table": {
+            "item": "物品",
+            "group": "类别",
+            "quantity": "数量"
+        },
+        "emptyState": {
+            "title": "暂无已兑换奖励",
+            "description": "立即兑换精彩物品！"
+        }
+    }
+}

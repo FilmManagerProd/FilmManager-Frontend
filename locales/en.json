@@ -1,0 +1,324 @@
+{
+	"navbar": {
+		"navbarChangeLanguage": "Change Language",
+        "languageSwitchTooltip": "Click me to change language"
+	},
+	"profile": {
+		"profile": "Profile"
+	},
+	"auth": {
+		"login": "Login",
+		"register": "Register",
+		"welcomeToFilmManager": "Welcome to FilmManager",
+		"pleaseLogin": "Please log in or create an account to access your profile and manage your content.",
+		"loginOrRegister": "Login / Register",
+		"enterUsername": "Enter username (Min. 3 char)",
+		"enterEmail": "Enter email",
+		"emailRequired": "Email is required",
+		"email": "Email",
+		"password": "Password",
+		"enterPassword": "Enter password",
+		"invalidEmail": "Invalid email format",
+		"passwordRequired": "Password is required",
+		"passwordLength": "Must be at least 12 characters",
+		"passwordUppercase": "Must include an uppercase letter",
+		"passwordNumber": "Must include a number",
+		"passwordSpecial": "Must include a special character",
+		"usernameRequired": "Username is required",
+		"checkInputs": "Please check your inputs again.",
+		"uhOh": "Uh-oh!",
+		"success": "Success!",
+		"loginSuccess": "Logged in successfully.",
+		"alreadyHaveAccount": "Already have an account? Login",
+		"noAccount": "Don't have an account? Register",
+		"accessDenied": "Access unauthorised",
+		"notPermitted": "You are not permitted to access this page",
+		"failedToLoadUser": "Failed to load user data. Please try again."
+	},
+	"account": {
+		"logoutSuccessTitle": "Logout Successful",
+		"logoutSuccessDesc": "You have been logged out successfully.",
+		"logoutFailTitle": "Uh-oh!",
+		"username": "Username",
+		"email": "Email",
+		"pointsRemaining": "Points Remaining",
+		"fetching": "Fetching...",
+		"fetchingPoints": "Fetching points...",
+		"admin": "Admin",
+		"logout": "Log Out",
+		"filmManagerUser": "FilmManager User"
+	},
+	"greeting": {
+		"morning": "Good morning",
+		"afternoon": "Good afternoon",
+		"evening": "Good evening"
+	},
+	"adminTab": {
+		"scanner": "Scanner",
+		"management": "Management"
+	},
+	"adminButton": {
+		"receive": "Receive",
+		"dispatch": "Dispatch",
+		"checkInfo": "Check Item's Info",
+		"itemsManagement": "Items Management",
+		"userManagement": "User Management"
+	},
+	"userManagement": {
+		"searchPlaceholder": "Search users...",
+		"loading": "Loading users...",
+		"noUsers": "No users found",
+		"confirmDeletion": "Confirm Deletion",
+		"deleteConfirmation": "Are you sure you want to delete this user? This action cannot be undone.",
+		"cancel": "Cancel",
+		"delete": "Delete",
+		"deleting": "Deleting...",
+		"fetchErrorTitle": "Fetch Error",
+		"fetchErrorDesc": "Failed to load users. Please try again.",
+		"deleteSuccessTitle": "Success",
+		"deleteSuccessDesc": "User deleted successfully.",
+		"deleteFailedTitle": "Delete failed",
+		"deleteFailedDesc": "Failed to delete user. Please try again.",
+		"table": {
+			"avatar": "Avatar",
+			"username": "Username",
+			"email": "Email",
+			"points": "Points",
+			"created": "Joined",
+			"actions": "Actions"
+		}
+	},
+	"itemsManagement": {
+		"groups": {
+			"all": "All Equipment",
+			"available": "Available Items",
+			"unavailable": "Unavailable Items",
+			"consumable": "Consumables",
+			"rental": "Rental Items"
+		},
+		"columns": {
+			"image": "Image",
+			"barcode": "Barcode",
+			"itemName": "Name",
+			"itemDescription": "Description",
+			"location": "Location",
+			"stock": "Stock",
+			"points": "Points",
+			"actions": "Actions"
+		},
+		"search": {
+			"placeholder": "Find an item...",
+			"shortPlaceholder": "Search"
+		},
+		"noItems": {
+			"title": "No items found",
+			"description": "Try adjusting your search criteria or category filter"
+		},
+		"deleteModal": {
+			"title": "Confirm Deletion",
+			"content": "Are you sure you want to delete this item? This action cannot be undone.",
+			"cancel": "Cancel",
+			"confirm": "Delete"
+		},
+		"editModal": {
+			"title": "Edit Items",
+			"barcode": "Barcode",
+			"itemName": "Item Name",
+			"itemDescription": "Item Description",
+			"itemGroup": "Item Group",
+			"location": "Location",
+			"itemImage": "Item Image",
+			"itemCount": "Item Count",
+			"pointsToRedeem": "Points to Redeem",
+			"selectImage": "Select Image",
+			"cancel": "Cancel",
+			"save": "Save",
+			"validation": {
+				"barcode": "Only letters and numbers. Max 100 characters.",
+				"itemName": "Invalid characters or too long. Max 100 characters.",
+				"itemDescription": "Invalid characters or too long. Max 250 characters.",
+				"location": "Only numbers and dashes. Max 20 characters.",
+				"itemCount": "Digits only. Max 6 digits.",
+				"points": "Digits only. Max 6 digits."
+			}
+		},
+		"unknownEditModal": {
+			"title": "Add New Item",
+			"barcode": "Barcode",
+			"itemName": "Item Name",
+			"itemDescription": "Item Description",
+			"itemGroup": "Item Group",
+			"selectGroupPlaceholder": "Select Item Group",
+			"location": "Item Warehouse Location",
+			"itemCount": "Item Count",
+			"pointsToRedeem": "Points to Redeem",
+			"validation": {
+				"barcode": "Only letters and numbers. Max 100 characters.",
+				"itemName": "Invalid characters or too long. Max 100 characters.",
+				"itemDescription": "Invalid characters or too long. Max 250 characters.",
+				"location": "Only numbers and dashes. Max 20 characters.",
+				"itemCount": "Digits only. Max 6 digits.",
+				"pointsToRedeem": "Digits only. Max 6 digits."
+			},
+			"cancel": "Cancel",
+			"save": "Save"
+		},
+		"toast": {
+			"success": "Success",
+			"editSuccess": "Item updated successfully.",
+			"editError": "Edit failed",
+			"editErrorDesc": "Failed to update item. Please try again.",
+			"deleteSuccess": "The item has been successfully deleted.",
+			"imageError": "Image Upload Failed",
+			"imageErrorDesc": "An unexpected error occurred. Please try again.",
+			"deleteError": "Delete failed",
+			"deleteErrorDesc": "Failed to delete barcode. Please try again."
+		},
+		"stockStatus": {
+			"low": "Low",
+			"medium": "Medium",
+			"high": "High"
+		}
+	},
+	"userHomepage": {
+		"readyToExplore": "Ready to explore amazing rewards?",
+		"availableRewards": "Available Rewards",
+		"availableRewardsDesc": "Browse and redeem exciting rewards using your points",
+		"myRewards": "My Rewards",
+		"myRewardsDesc": "View your redeemed rewards",
+		"availablePoints": "Available Points:",
+		"points": "PTS"
+	},
+	"scanner": {
+		"title": "Scan Area",
+		"placeholder": "Scan barcode here...",
+		"notice": "We only accept 1D barcodes",
+		"radio": {
+			"receive": "Receive",
+			"dispatch": "Dispatch",
+			"info": "Scan Info"
+		},
+		"scannedResult": {
+			"lastScanned": "Last Scanned:"
+		},
+		"item": {
+			"unnamed": "Unnamed Product",
+			"noDescription": "No Description",
+			"unknownLocation": "Unknown Location"
+		},
+		"stock": "Stock: {{count}}",
+		"requiredPoints": "Required Points: {{count}}",
+		"emptyState": {
+			"title": "Scan results will appear here!"
+		},
+		"footer": {
+			"selectAll": "Select All",
+			"unselectAll": "Unselect All",
+			"clearAll": "Clear All",
+			"receive": "Receive",
+			"dispatch": "Dispatch",
+			"insufficientStock": "Not enough stock to dispatch."
+		},
+		"modals": {
+			"receive": {
+				"title": "Confirm Receive",
+				"body": "Are you sure you want to receive all selected items?",
+				"cancel": "Cancel",
+				"confirm": "Confirm"
+			},
+			"dispatch": {
+				"title": "Confirm Dispatch",
+				"body": "Are you sure you want to dispatch the selected items?",
+				"note": "This will deduct the dispatched quantity from the available stock. Only items with sufficient stock will be dispatched.",
+				"cancel": "Cancel",
+				"confirm": "Confirm"
+			}
+		},
+		"toast": {
+			"socketErrorTitle": "Socket connection error",
+			"socketErrorDesc": "Please check your internet connection and try again.",
+			"invalidBarcodeTitle": "Invalid Barcode",
+			"invalidBarcodeDesc": "2D barcodes like QR codes are not supported.",
+			"scannerErrorTitle": "Scanner Error",
+			"scannerErrorServerDesc": "Could not verify barcode with the server.",
+			"clearedTitle": "Cleared",
+			"clearedDesc": "All scanned results have been removed.",
+			"itemsReceivedTitle": "Items Received",
+			"itemsReceivedDesc": "{{count}} items received.",
+			"receiveErrorTitle": "Receive Error",
+			"receiveErrorDesc": "Failed to receive some items.",
+			"dispatchErrorUnknownTitle": "Dispatch Error",
+			"dispatchErrorUnknownDesc": "You need to receive unknown items first before dispatching.",
+			"dispatchErrorStockTitle": "Dispatch Error",
+			"dispatchErrorStockDesc": "Selected items have insufficient stock to dispatch.",
+			"dispatchSuccessTitle": "Dispatch Successful",
+			"dispatchSuccessDesc": "{{count}} items dispatched.",
+			"editErrorTitle": "Edit Error",
+			"editErrorDesc": "Failed to update barcode. Please try again."
+		}
+	},
+	"userRedeem": {
+		"header": {
+			"equipmentRedemption": "Equipment Redemption",
+			"availablePoints": "Available Points: {{points}}"
+		},
+		"loading": "Loading available equipment...",
+		"emptyState": "No equipment available",
+		"cart": {
+			"title": "Cart",
+			"emptyMessage": "Your cart is empty. Add items to get started.",
+			"browseEquipment": "Browse Equipment",
+			"total": "Total:",
+			"continueShopping": "Continue Shopping",
+			"checkout": "Checkout",
+			"remove": "Remove"
+		},
+		"product": {
+			"addToCart": "Add to Cart",
+			"points": "{{points}} points",
+			"quantity": "Quantity: {{quantity}}",
+			"pts": "PTS"
+		},
+		"checkout": {
+			"title": "Checkout",
+			"goBackCart": "Go back to cart",
+			"orderSummary": "Order Summary",
+			"insufficientPoints": "Insufficient points ({{points}} available)",
+			"enoughPoints": "You have enough points ({{points}} available)",
+			"proceed": "Proceed",
+			"nothingToCheckout": "You have nothing to checkout."
+		},
+		"confirm": {
+			"title": "Confirm Redemption?",
+			"description": "You are about to spend <strong>{{points}}</strong> points.",
+			"remaining": "You will have <strong>{{points}}</strong> points remaining.",
+			"cancel": "Cancel",
+			"placeOrder": "Place order"
+		},
+		"toast": {
+			"success": {
+				"title": "Success",
+				"description": "Redemption successful!"
+			},
+			"error": {
+				"title": "Uh-oh!",
+				"generic": "Something went wrong. Please try again."
+			}
+		}
+	},
+    "userRewards": {
+        "header": {
+            "title": "My Rewards",
+            "availablePoints": "Available Points: {{points}}"
+        },
+        "table": {
+            "item": "ITEM",
+            "group": "GROUP",
+            "quantity": "QTY"
+        },
+        "emptyState": {
+            "title": "No rewards redeemed yet",
+            "description": "Start redeeming amazing items!"
+        }
+    }
+}
