@@ -1,7 +1,5 @@
 [![Netlify Status](https://api.netlify.com/api/v1/badges/b31d7b33-e204-44b1-8893-558de609bc54/deploy-status)](https://app.netlify.com/sites/filmmanagerapp/deploys)
 
-Deployed from [FilmManager Frontend](https://github.com/lincoln0623/FilmManager_Backend)
-
 # Welcome to your Expo app 👋
 
 This is an [Expo](https://expo.dev) project created with [`create-gluestack-app`](https://www.npmjs.com/package/create-gluestack).
