@@ -14,6 +14,8 @@ import { Avatar, AvatarFallbackText, AvatarImage } from "@/components/ui/avatar"
 import { signOut } from "firebase/auth";
 import { auth } from "@/firebase/firebase";
 import { useTranslation } from "react-i18next";
+import { useAuth } from "@/contexts/AuthContext";
+import { useRouter } from "expo-router";
 import FirebaseDecoder from "@/app/tools/FirebaseDecoder";
 import ProtectedRoute from "@/app/_wrappers/ProtectedRoute";
 
@@ -23,6 +25,10 @@ export default function ProfileScreen() {
     const isLargeScreen = width >= 765;
     const isShortScreen = height < 750;
     const isMobileScreen = width < 680;
+
+    const router = useRouter();
+
+    const { logout } = useAuth();
 
     const [isLoggingOut, setIsLoggingOut] = useState(false);
 
@@ -53,10 +59,9 @@ export default function ProfileScreen() {
     const handleLogout = async () => {
         setIsLoggingOut(true);
         try {
-            await signOut(auth);
+            await logout();
+            router.replace("/");
             showToast(t("account.logoutSuccessTitle"), t("account.logoutSuccessDesc"));
-        } catch (error: any) {
-            showToast(t("account.logoutFailTitle"), FirebaseDecoder({ error: error }));
         } finally {
             setIsLoggingOut(false);
         }

@@ -27,6 +27,7 @@
 		"usernameRequired": "请输入用户名",
 		"checkInputs": "请检查输入项",
 		"uhOh": "哎呀！",
+		"error": "发生错误",
 		"success": "成功！",
 		"loginSuccess": "登录成功",
 		"alreadyHaveAccount": "已有账号？点击登录",

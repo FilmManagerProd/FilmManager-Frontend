@@ -278,7 +278,7 @@ const AuthForm = ({ isRegister, onSubmit, switchForm }: AuthFormProps) => {
 							fontSize: isWeb ? 15 : 14
 						}}
 					>
-						{isRegister ? t("auth.noAccount") : t("auth.alreadyHaveAccount")}
+						{isRegister ? t("auth.alreadyHaveAccount") : t("auth.noAccount")}
 					</Text>
 				</Button>
 			</VStack>
@@ -293,7 +293,7 @@ type ProtectedRouteProps = {
 
 export default function ProtectedRoute({ showAuth, children }: ProtectedRouteProps) {
 	const [isRegister, setIsRegister] = useState(false);
-	const { userData, loading } = useAuth();
+	const { userData, loading, login, register, logout } = useAuth();
 	const router = useRouter();
 	const isWeb = Platform.OS === "web";
 	const toast = useToast();
@@ -326,30 +326,14 @@ export default function ProtectedRoute({ showAuth, children }: ProtectedRoutePro
 	const handleAuth = async (email: string, password: string, username?: string) => {
 		try {
 			if (isRegister && username) {
-				await server.post("/api/register", {
-					email,
-					password,
-					username
-				});
-
-				await signInWithEmailAndPassword(auth, email, password);
+				await register(email, password, username);
 				showToast(t("auth.success"), t("auth.loginSuccess"));
 			} else {
-                await signInWithEmailAndPassword(auth, email, password);
+				await login(email, password);
 				showToast(t("auth.success"), t("auth.loginSuccess"));
 			}
-		} catch (error: any) {
-            if (isRegister) {
-                if (error.response && error.response.data && error.response.data.error && typeof error.response.data.error === "string") {
-					if (error.response.data.error.startsWith("UERROR")) {
-						showToast(t('auth.uhOh'), error.response.data.error.substring("UERROR:".length));
-					} else {
-						showToast(t('auth.uhOh'), error.response.data.error.substring("ERROR:".length));
-					}
-				}
-            } else {
-                showToast(t('auth.uhOh'), FirebaseDecoder({ error: error.message }));
-            }
+		} catch (error) {
+			showToast(t("auth.uhOh"), error?.response?.data?.error || error.message || t("auth.error"));
 		}
 	};
 

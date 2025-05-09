@@ -1,8 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { initializeAuth } from "firebase/auth";
 import { getDatabase } from "firebase/database";
-import { Platform } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import Constants from "expo-constants";
 
 const {
@@ -26,21 +23,5 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-
-let persistence;
-
-if (Platform.OS === 'web') {
-    // Web persistence
-    const { browserSessionPersistence } = require("firebase/auth");
-    persistence = browserSessionPersistence;
-} else {
-    // React Native persistence
-    const { getReactNativePersistence } = require("firebase/auth/react-native");
-    persistence = getReactNativePersistence(AsyncStorage);
-}
-
-export const auth = initializeAuth(app, {
-    persistence
-});
 
 export const db = getDatabase(app);

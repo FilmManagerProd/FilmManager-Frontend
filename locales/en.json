@@ -27,6 +27,7 @@
 		"usernameRequired": "Username is required",
 		"checkInputs": "Please check your inputs again.",
 		"uhOh": "Uh-oh!",
+		"error": "An error occured",
 		"success": "Success!",
 		"loginSuccess": "Logged in successfully.",
 		"alreadyHaveAccount": "Already have an account? Login",

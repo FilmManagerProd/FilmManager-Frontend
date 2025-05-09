@@ -1,29 +1,32 @@
 // @ts-nocheck
 import { createContext, useContext, useEffect, useState } from "react";
 import { useToast, Toast, ToastTitle, ToastDescription } from "@/components/ui/toast";
-import { User, onAuthStateChanged, onIdTokenChanged } from "firebase/auth";
-import { auth } from "@/firebase/firebase";
-import { getDatabase, ref, onValue, off } from "firebase/database";
+import { useTranslation } from "react-i18next";
 import server from "@/networking";
 
 type AuthContextType = {
-    user: User | null;
-    userData: any;
+    userData: any | null;
     loading: boolean;
+    login: (email: string, password: string) => Promise<void>;
+    register: (email: string, password: string, username: string) => Promise<void>;
+    logout: () => void;
 };
 
 const AuthContext = createContext<AuthContextType>({
-    user: null,
     userData: null,
     loading: true,
+    login: async () => {},
+    register: async () => {},
+    logout: () => {}
 });
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-    const [user, setUser] = useState<User | null>(null);
-    const [userData, setUserData] = useState<any>(null);
+    const [userData, setUserData] = useState<any | null>(null);
     const [loading, setLoading] = useState(true);
-
     const toast = useToast();
+
+    const { t } = useTranslation();
+
     const showToast = (title: string, description: string) => {
         const newId = Math.random();
         toast.show({
@@ -42,60 +45,64 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         });
     };
 
+    const validateToken = async (token: string) => {
+        try {
+            const response = await server.get('/api/user');
+            return response.data;
+        } catch (error) {
+            return null;
+        }
+    };
+
     useEffect(() => {
-        let userRefCleanup: (() => void) | null = null;
-
-        const unsubscribeAuth = onAuthStateChanged(auth, (firebaseUser) => {
-            setUser(firebaseUser);
-
-            if (firebaseUser) {
-                const db = getDatabase();
-                const userRef = ref(db, `Users/${firebaseUser.uid}`);
-                userRefCleanup = () => off(userRef);
-
-                onValue(
-                    userRef,
-                    (snapshot) => {
-                        setUserData(snapshot.val());
-                        setLoading(false);
-                    },
-                    (error) => {
-                        if (auth.currentUser) {
-                            showToast(t("auth.uhOh"), t("failedToLoadUser"));
-                            console.error("Realtime DB error:", error);
-                        }
-                        setLoading(false);
+        const checkAuth = async () => {
+            const token = localStorage.getItem('authToken');
+            if (token) {
+                try {
+                    const userData = await validateToken(token);
+                    if (userData) {
+                        setUserData(userData);
+                        server.defaults.headers.common['Authorization'] = `Bearer ${token}`;
                     }
-                );
-            } else {
-                setUserData(null);
-                setLoading(false);
+                } catch (error) {
+                    console.error('Token validation failed:', error);
+                }
             }
-        });
-
-        return () => {
-            unsubscribeAuth();
-            if (userRefCleanup) userRefCleanup();
+            setLoading(false);
         };
+
+        checkAuth();
     }, []);
 
-    useEffect(() => {
-        const unsubscribeToken = onIdTokenChanged(auth, async (firebaseUser) => {
-            if (firebaseUser) {
-                const freshToken = await firebaseUser.getIdToken();
-                server.defaults.headers.common["Authorization"] = `Bearer ${freshToken}`;
-            } else {
-                delete server.defaults.headers.common["Authorization"];
-            }
-        });
+    const login = async (email: string, password: string) => {
+        try {
+            const response = await server.post('/api/login', { email, password });
+            localStorage.setItem('authToken', response.data.token);
+            server.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
+            setUserData(response.data.user);
+        } catch (error) {
+            showToast(t("auth.uhOh"), error.response?.data?.error || t("auth.error"));
+            throw error;
+        }
+    };
 
-        return () => {
-            unsubscribeToken();
-        };
-    }, []);
+    const register = async (email: string, password: string, username: string) => {
+        const response = await server.post('/api/register', { email, password, username });
+
+        localStorage.setItem('authToken', response.data.token);
+        server.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
+        setUserData(response.data.user);
+    };
+
+
+    const logout = () => {
+        localStorage.removeItem('authToken');
+        delete server.defaults.headers.common['Authorization'];
+        setUserData(null);
+    };
 
     return (
-        <AuthContext.Provider value={{ user, userData, loading }}>
+        <AuthContext.Provider value={{ userData, loading, login, register, logout }}>
             {children}
         </AuthContext.Provider>
     );
