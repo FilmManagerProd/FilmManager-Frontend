@@ -1,4 +1,5 @@
 // @ts-nocheck
+import { useAuth } from "@/contexts/AuthContext";
 import { SafeAreaView, useWindowDimensions } from "react-native";
 import { Tabs } from "expo-router";
 import { GlobeIcon, HouseIcon, ShoppingCart, User2 } from "lucide-react-native";
@@ -23,6 +24,7 @@ export default function TabLayout() {
     const isLargeScreen = width >= 680;
     const router = useRouter();
     const { t } = useTranslation();
+    const { userData, loading } = useAuth();
 
     const CustomHeader = () => {
         return (
@@ -117,31 +119,43 @@ export default function TabLayout() {
                             </TooltipContent>
                         </Tooltip>
 
-                        {/* Avatar for Profile */}
-                        <Pressable
-                            onPress={() => router.push("/auth/account" as any)}
-                            style={{
-                                marginRight: 20,
-                                marginTop: 20,
-                                marginBottom: 20,
-                            }}
-                        >
-                            <Avatar
-                                style={{
-                                    borderRadius: 9999,
-                                    width: 40,
-                                    height: 40,
-                                    overflow: "hidden",
-                                }}
-                            >
-                                <AvatarFallbackText>{t("profile.profile")}</AvatarFallbackText>
-                                <AvatarImage
-                                    accessibilityLabel="User Avatar"
-                                    source={{ uri: "https://bit.ly/dan-abramov" }}
-                                    style={{ width: "100%", height: "100%" }}
+                        {!loading ? (
+                            userData ? (
+                                <Pressable
+                                    onPress={() => router.push("/auth/account" as any)}
+                                    style={{
+                                        marginRight: 20,
+                                        marginTop: 20,
+                                        marginBottom: 20,
+                                    }}
+                                >
+                                    <Avatar
+                                        style={{
+                                            borderRadius: 9999,
+                                            width: 40,
+                                            height: 40,
+                                            overflow: "hidden",
+                                        }}
+                                    >
+                                        <AvatarFallbackText>{t("profile.profile")}</AvatarFallbackText>
+                                        <AvatarImage
+                                            accessibilityLabel="User Avatar"
+                                            source={{ uri: userData.avatarUrl || "https://bit.ly/dan-abramov" }}
+                                            style={{ width: "100%", height: "100%" }}
+                                        />
+                                    </Avatar>
+                                </Pressable>
+                            ) : (
+                                <Box
+                                    style={{
+                                        marginRight: 20,
+                                        marginTop: 20,
+                                        marginBottom: 20,
+                                        height: 40,
+                                    }}
                                 />
-                            </Avatar>
-                        </Pressable>
+                            )
+                        ) : null}
                     </SafeAreaView>
                 </SafeAreaView>
                 <LinearGradient
