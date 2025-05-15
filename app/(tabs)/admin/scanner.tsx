@@ -69,7 +69,6 @@ export default function ScannerScreen() {
     const [currentMode, setCurrentMode] = useState("");
     const [isFocused, setIsFocused] = useState(false);
     const [isInventoryMode, setIsInventoryMode] = useState(false);
-    const [imageUrls, setImageUrls] = useState({})
     const [validationErrors, setValidationErrors] = useState({
         barcode: false,
         itemName: false,
@@ -982,8 +981,8 @@ export default function ScannerScreen() {
                                                                             justifyContent: "center",
                                                                             alignSelf: "center",
                                                                             marginBottom: 20,
-                                                                            width: isTinyScreen ? 36 : 90,
-                                                                            height: isTinyScreen ? 36 : 90,
+                                                                            width: 100,
+                                                                            height: 100,
                                                                             borderRadius: 8,
                                                                             overflow: 'hidden',
                                                                         }}
@@ -1463,8 +1462,9 @@ export default function ScannerScreen() {
 
                                                                             <Box
                                                                                 style={{
-                                                                                    width: isTinyScreen ? 36 : 90,
-                                                                                    height: isTinyScreen ? 36 : 90,
+                                                                                    width: 96,
+                                                                                    height: 96,
+                                                                                    marginLeft: 4,
                                                                                     borderRadius: 8,
                                                                                     overflow: 'hidden',
                                                                                 }}

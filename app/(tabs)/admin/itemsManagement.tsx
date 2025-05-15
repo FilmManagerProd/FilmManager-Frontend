@@ -70,9 +70,6 @@ const ItemsManagement = () => {
     const [originalItemImage, setOriginalItemImage] = useState('');
     const [isSelectOpen, setIsSelectOpen] = useState(false)
     const [isOpen, setIsOpen] = useState(false);
-    const [imageUrls, setImageUrls] = useState({});
-    const [imageLoading, setImageLoading] = useState({});
-    const [imagesFetched, setImagesFetched] = useState(false);
     const [validationErrors, setValidationErrors] = useState({
         barcode: false,
         itemName: false,
@@ -619,8 +616,8 @@ const ItemsManagement = () => {
                                                                             <TableData key={col.key} style={{ ...cellStyle, justifyContent: "center" }}>
                                                                                 <Box
                                                                                     style={{
-                                                                                        width: isTinyScreen ? 36 : 90,
-                                                                                        height: isTinyScreen ? 36 : 90,
+                                                                                        width: 96,
+                                                                                        height: 96,
                                                                                         borderRadius: 8,
                                                                                         overflow: 'hidden',
                                                                                     }}

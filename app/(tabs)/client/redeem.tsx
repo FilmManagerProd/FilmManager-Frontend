@@ -29,6 +29,7 @@ interface Product {
 	itemName: string;
 	itemDescription: string;
 	pointsToRedeem: number;
+    imageUrl?: string;
 }
 
 export default function RedeemScreen() {
@@ -42,7 +43,6 @@ export default function RedeemScreen() {
 	const [checkoutModalVisible, setCheckoutModalVisible] = useState(false);
 	const [confirmCheckoutModalVisible, setConfirmCheckoutModalVisible] = useState(false);
 	const [checkingOut, setCheckingOut] = useState(false);
-    const [imageUrls, setImageUrls] = useState({});
 	const toast = useToast();
 
     const { t } = useTranslation();
@@ -55,7 +55,8 @@ export default function RedeemScreen() {
 		id: b.id,
 		itemName: b.itemName,
 		itemDescription: b.itemDescription,
-		pointsToRedeem: b.pointsToRedeem
+		pointsToRedeem: b.pointsToRedeem,
+        imageUrl: b.imageUrl || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVNer1ZryNxWVXojlY9Hoyy1-4DVNAmn7lrg&s'
 	});
 
 	const fetchBarcodes = async () => {
@@ -169,45 +170,14 @@ export default function RedeemScreen() {
 		});
 	};
 
-    const fetchImagesForAllBarcodes = async () => {
-        if (!barcodes || Object.keys(barcodes).length === 0) {
-            return;
-        }
-
-        const newImageUrls = {};
-
-        for (const [itemId, item] of Object.entries(barcodes)) {
-            let finalUrl = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVNer1ZryNxWVXojlY9Hoyy1-4DVNAmn7lrg&s';
-
-            if (item?.imageUrl) {
-                try {
-                    const fileName = item.imageUrl.split("/").pop();
-                    const response = await server.get(`/api/image/url/${fileName}`);
-                    if (response.data?.url) {
-                        finalUrl = response.data.url;
-                    }
-                } catch (err) {
-                    console.error(`Error fetching image for ${itemId}:`, err);
-                }
-            }
-
-            newImageUrls[itemId] = finalUrl;
-        }
-
-        setImageUrls(newImageUrls);
-    };
-
 	useEffect(() => {
         if (userData) {
             fetchBarcodes();
         }
 	}, [userData]);
 
-    useEffect(() => {
-        if (barcodes && Object.keys(barcodes).length > 0) {
-            fetchImagesForAllBarcodes();
-        }
-    }, [barcodes]);
+    console.log(products)
+    console.log(cartItems)
 
     if (productsLoading) {
         return (
@@ -334,7 +304,7 @@ export default function RedeemScreen() {
                                                 >
                                                     <Image
                                                         size="md"
-                                                        source={{ uri: imageUrls[product.id] || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVNer1ZryNxWVXojlY9Hoyy1-4DVNAmn7lrg&s' }}
+                                                        source={{ uri: product.imageUrl || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVNer1ZryNxWVXojlY9Hoyy1-4DVNAmn7lrg&s' }}
                                                         alt="item image"
                                                     />
                                                 </Box>
@@ -588,7 +558,7 @@ export default function RedeemScreen() {
                                                                 >
                                                                     <Image
                                                                         size="sm"
-                                                                        source={{ uri: imageUrls[item.product.id] || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVNer1ZryNxWVXojlY9Hoyy1-4DVNAmn7lrg&s' }}
+                                                                        source={{ uri: item.product.imageUrl || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVNer1ZryNxWVXojlY9Hoyy1-4DVNAmn7lrg&s' }}
                                                                         alt="item image"
                                                                     />
                                                                 </Box>
@@ -800,7 +770,7 @@ export default function RedeemScreen() {
                                                             >
                                                                 <Image
                                                                     size="sm"
-                                                                    source={{ uri: imageUrls[item.product.id] || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVNer1ZryNxWVXojlY9Hoyy1-4DVNAmn7lrg&s' }}
+                                                                    source={{ uri: item.product.imageUrl || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVNer1ZryNxWVXojlY9Hoyy1-4DVNAmn7lrg&s' }}
                                                                     alt="item image"
                                                                 />
                                                             </Box>
