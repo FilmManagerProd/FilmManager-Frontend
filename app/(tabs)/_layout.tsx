@@ -226,13 +226,13 @@ export default function TabLayout() {
                 }}
             />
             <Tabs.Screen
-                name="admin/itemsManagement"
+                name="admin/itemsmanagement"
                 options={{
                     href: null
                 }}
             />
             <Tabs.Screen
-                name="admin/userManagement"
+                name="admin/usermanagement"
                 options={{
                     href: null
                 }}

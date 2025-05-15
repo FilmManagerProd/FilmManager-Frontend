@@ -30,6 +30,7 @@ module.exports = ({ config }) => ({
       bundler: "metro",
       output: "static",
       favicon: "./assets/images/favicon.png",
+      includeFiles: ["_redirects"]
     },
     plugins: [
       "expo-router",

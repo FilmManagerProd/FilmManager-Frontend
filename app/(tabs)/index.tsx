@@ -352,7 +352,7 @@ export default function HomepageScreen() {
                                             onHoverIn={() => setHoverItem(true)}
                                             onHoverOut={() => setHoverItem(false)}
                                             onPress={() => {
-                                                router.push("/admin/itemsManagement")
+                                                router.push("/admin/itemsmanagement")
                                             }}
                                             style={{
                                                 height: isMobileScreen
@@ -407,7 +407,7 @@ export default function HomepageScreen() {
                                             onHoverIn={() => setHoverUser(true)}
                                             onHoverOut={() => setHoverUser(false)}
                                             onPress={() => {
-                                                router.push("/admin/userManagement")
+                                                router.push("/admin/usermanagement")
                                             }}
                                             style={{
                                                 height: isMobileScreen
