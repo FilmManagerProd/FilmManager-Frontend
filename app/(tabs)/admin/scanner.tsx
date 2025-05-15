@@ -87,7 +87,7 @@ export default function ScannerScreen() {
 
     const { API_KEY } = Constants.expoConfig.extra;
 
-    const { barcodes, loading } = useData()
+    const { barcodes, loading, refetch } = useData()
 
     const { t } = useTranslation();
 
@@ -96,10 +96,6 @@ export default function ScannerScreen() {
     useEffect(() => {
         setCurrentMode(initialMode);
     }, [initialMode]);
-
-    useEffect(() => {
-        console.log(barcodes)
-    }, [barcodes])
 
     const groupLabels = { consumable: "消耗品", rental: "租赁物" };
     const radioOptions = [
@@ -481,6 +477,7 @@ export default function ScannerScreen() {
 
             const totalReceived = knownItemsToReceive.length + unknownItemsToReceive.length;
             showToast(t('scanner.toast.itemsReceivedTitle'), t('scanner.toast.itemsReceivedDesc', { count: totalReceived }));
+            refetch();
         } catch (error) {
             console.error("Receive Error:", error);
             if (
@@ -546,6 +543,7 @@ export default function ScannerScreen() {
             setPendingUnknownItems(prev => prev.filter(item => !selectedIds.has(item.id)));
             setSelectedIds(new Set());
             showToast(t('scanner.toast.dispatchSuccessTitle'), t('scanner.toast.dispatchSuccessDesc', { count: dispatchableItems.length }));
+            refetch();
         } catch (error) {
             console.error("Dispatch Error:", error);
             if (
@@ -610,7 +608,26 @@ export default function ScannerScreen() {
                     itemName: editingItemName.trim(),
                     itemDescription: editingItemDescription.trim(),
                     count: parseInt(editingItemCount),
+                    imageUrl: editingItem.imageUrl || ""
                 }]);
+
+                showToast(t('itemsManagement.toast.success'), t('itemsManagement.toast.editSuccess'));
+                refetch();
+                setPendingItems(prev =>
+                    prev.map(item =>
+                      item.id === editingItem.id
+                        ? {
+                            ...item,
+                            itemName: updatedItem.itemName,
+                            itemDescription: updatedItem.itemDescription,
+                            group: updatedItem.group,
+                            location: updatedItem.location,
+                            pointsToRedeem: updatedItem.pointsToRedeem,
+                            totalCount: updatedItem.totalCount,
+                          }
+                        : item
+                    )
+                  );
             } catch (error) {
                 console.error("Edit Error:", error);
                 if (
@@ -693,42 +710,9 @@ export default function ScannerScreen() {
 
     const selectedInsufficientStock = [...pendingItems, ...pendingUnknownItems].filter(item => selectedIds.has(item.id)).some(item => item.totalCount < 1 || item.sessionCount > item.totalCount);
 
-    const fetchImagesForAllBarcodes = async () => {
-        if (!barcodes || Object.keys(barcodes).length === 0) {
-            console.log("Barcodes data not available.");
-            return;
-        }
-
-        const newImageUrls = {};
-
-        for (const [itemId, item] of Object.entries(barcodes)) {
-            let finalUrl = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVNer1ZryNxWVXojlY9Hoyy1-4DVNAmn7lrg&s';
-
-            if (item?.imageUrl) {
-                try {
-                    const fileName = item.imageUrl.split("/").pop();
-                    const response = await server.get(`/api/image/url/${fileName}`);
-                    if (response.data?.url) {
-                        finalUrl = response.data.url;
-                    }
-                } catch (err) {
-                    console.error(`Error fetching image for ${itemId}:`, err);
-                }
-            }
-
-            newImageUrls[itemId] = finalUrl;
-        }
-
-        setImageUrls(newImageUrls);
-    };
-
     // Update items when realtime database have changes on barcodes
     useEffect(() => {
         if (!barcodes || Object.keys(barcodes).length === 0) return;
-        const shouldFetchImages = Object.keys(imageUrls).length !== Object.keys(barcodes).length;
-        if (shouldFetchImages) {
-            fetchImagesForAllBarcodes();
-        }
         const barcodesArray = Object.values(barcodes) as ScannedItem[];
 
         setPendingItems(prev =>
@@ -1008,7 +992,7 @@ export default function ScannerScreen() {
                                                                             size="lg"
                                                                             source={{
                                                                                 uri:
-                                                                                    imageUrls[item.id] ||
+                                                                                    item.imageUrl ||
                                                                                     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVNer1ZryNxWVXojlY9Hoyy1-4DVNAmn7lrg&s',
                                                                             }}
                                                                             alt="item image"
@@ -1489,7 +1473,7 @@ export default function ScannerScreen() {
                                                                                     size="lg"
                                                                                     source={{
                                                                                         uri:
-                                                                                            imageUrls[item.id] ||
+                                                                                            item.imageUrl ||
                                                                                             'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVNer1ZryNxWVXojlY9Hoyy1-4DVNAmn7lrg&s',
                                                                                     }}
                                                                                     alt="item image"
@@ -1862,14 +1846,14 @@ export default function ScannerScreen() {
                                         onClose={() => setIsSelectOpen(false)}
                                     >
                                         <SelectTrigger variant="outline" size="md" style={{ height: 40, alignItems: "center", justifyContent: isMobileScreen ? "flex-start" : "space-between" }}>
-                                            <SelectInput value={t(`itemsManagement.groups.${editingItemGroup}`)} placeholder={t('itemsManagement.editModal.itemGroup')} />
+                                            <SelectInput value={t(`scanner.groups.${editingItemGroup}`)} placeholder={t('itemsManagement.editModal.itemGroup')} />
                                             <SelectIcon className="mr-3" as={ChevronDownIcon} />
                                         </SelectTrigger>
                                         <SelectPortal>
                                             <SelectBackdrop />
                                             <SelectContent>
                                                 <SelectDragIndicatorWrapper><SelectDragIndicator /></SelectDragIndicatorWrapper>
-                                                {Object.entries(t('itemsManagement.groups', { returnObjects: true })).map(([value, label]) => (
+                                                {Object.entries(t('scanner.groups', { returnObjects: true })).map(([value, label]) => (
                                                     <SelectItem key={value} label={label} value={value} />
                                                 ))}
                                             </SelectContent>

@@ -191,6 +191,8 @@
 		"points": "PTS"
 	},
 	"scanner": {
+		"groupFilterPlaceholder": "Select Item Group",
+		"loading": "Loading items...",
 		"title": "Scan Area",
 		"placeholder": "Scan barcode here...",
 		"notice": "We only accept 1D barcodes",
@@ -198,6 +200,10 @@
 			"receive": "Receive",
 			"dispatch": "Dispatch",
 			"info": "Scan Info"
+		},
+		"groups": {
+			"consumable": "Consumables",
+			"rental": "Rental Items"
 		},
 		"scannedResult": {
 			"lastScanned": "Last Scanned:"

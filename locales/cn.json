@@ -90,6 +90,8 @@
 		}
 	},
 	"itemsManagement": {
+		"groupFilterPlaceholder": "选择物品分类",
+		"loading": "正在加载物品...",
 		"groups": {
 			"all": "所有设备",
 			"available": "可用物品",
@@ -198,6 +200,10 @@
 			"receive": "入库",
 			"dispatch": "出库",
 			"info": "扫描信息"
+		},
+		"groups": {
+			"consumable": "消耗品",
+			"rental": "租赁物"
 		},
 		"scannedResult": {
 			"lastScanned": "最近扫描："

@@ -82,7 +82,7 @@ const ItemsManagement = () => {
         pointsToRedeem: false,
     });
 
-    const { barcodes, loading } = useData();
+    const { barcodes, loading, refetch } = useData();
 
     const { t } = useTranslation();
 
@@ -250,6 +250,7 @@ const ItemsManagement = () => {
             setShowEditModal(false);
             setEditingItem(null);
             showToast(t('itemsManagement.toast.success'), t('itemsManagement.toast.editSuccess'));
+            refetch();
         } catch (error) {
             console.error("Edit Error:", error);
             if (
@@ -283,6 +284,7 @@ const ItemsManagement = () => {
             });
             setPendingItems((prev) => prev.filter((item) => item.id !== id));
             showToast(t('itemsManagement.toast.success'), t('itemsManagement.toast.deleteSuccess'));
+            refetch();
         } catch (error) {
             console.error("Error deleting barcode:", error);
             showToast(t('itemsManagement.toast.deleteError'), t('itemsManagement.toast.deleteErrorDesc'));
@@ -393,41 +395,6 @@ const ItemsManagement = () => {
         });
     };
 
-    const fetchImagesForAllBarcodes = async () => {
-        if (!barcodes || Object.keys(barcodes).length === 0) {
-            console.log("Barcodes data not available.");
-            return;
-        }
-
-        const newImageUrls = {};
-
-        for (const [itemId, item] of Object.entries(barcodes)) {
-            let finalUrl = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVNer1ZryNxWVXojlY9Hoyy1-4DVNAmn7lrg&s';
-
-            if (item?.imageUrl) {
-                try {
-                    const fileName = item.imageUrl.split("/").pop();
-                    const response = await server.get(`/api/image/url/${fileName}`);
-                    if (response.data?.url) {
-                        finalUrl = response.data.url;
-                    }
-                } catch (err) {
-                    console.error(`Error fetching image for ${itemId}:`, err);
-                }
-            }
-
-            newImageUrls[itemId] = finalUrl;
-        }
-
-        setImageUrls(newImageUrls);
-    };
-
-    useEffect(() => {
-        if (barcodes && Object.keys(barcodes).length > 0) {
-            fetchImagesForAllBarcodes();
-        }
-    }, [barcodes]);
-
     if (loading)
         return (
             <ProtectedRoute showAuth={true}>
@@ -461,7 +428,7 @@ const ItemsManagement = () => {
                                         style={{ backgroundColor: "white" }}
                                     >
                                         {!isMobileScreen && (
-                                            <SelectInput value={groupLabels[selectedGroup]} placeholder={t('itemsManagement.groups.all')} style={{ color: "black" }} />
+                                            <SelectInput value={groupLabels[selectedGroup]} placeholder={t('itemsManagement.groupFilterPlaceholder')} style={{ color: "black" }} />
                                         )}
                                         {isMobileScreen && (
                                             <Text style={{ color: "black", fontSize: 14, padding: 10 }}>{groupLabels[selectedGroup]}</Text>
@@ -662,7 +629,7 @@ const ItemsManagement = () => {
                                                                                         size='lg'
                                                                                         source={{
                                                                                             uri:
-                                                                                                imageUrls[item.id] ||
+                                                                                                item.imageUrl ||
                                                                                                 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVNer1ZryNxWVXojlY9Hoyy1-4DVNAmn7lrg&s',
                                                                                         }}
                                                                                         alt="item image"
