@@ -3,13 +3,41 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { useToast, Toast, ToastTitle, ToastDescription } from "@/components/ui/toast";
 import { useTranslation } from "react-i18next";
 import server from "@/networking";
+import * as SecureStore from 'expo-secure-store';
+import { Platform } from "react-native";
+
+// Fallback local storage for web platform
+const tokenStorage = {
+    async getItem(key) {
+        if (Platform.OS === 'web') {
+            return localStorage.getItem(key);
+        }
+        return SecureStore.getItemAsync(key);
+    },
+    async setItem(key, value) {
+        if (Platform.OS === 'web') {
+            localStorage.setItem(key, value);
+            return;
+        }
+        return SecureStore.setItemAsync(key, value);
+    },
+    async removeItem(key) {
+        if (Platform.OS === 'web') {
+            localStorage.removeItem(key);
+            return;
+        }
+        return SecureStore.deleteItemAsync(key);
+    }
+};
+
+const TOKEN_KEY = 'authToken';
 
 type AuthContextType = {
     userData: any | null;
     loading: boolean;
     login: (email: string, password: string) => Promise<void>;
     register: (email: string, password: string, username: string) => Promise<void>;
-    logout: () => void;
+    logout: () => Promise<void>;
 };
 
 const AuthContext = createContext<AuthContextType>({
@@ -17,12 +45,13 @@ const AuthContext = createContext<AuthContextType>({
     loading: true,
     login: async () => {},
     register: async () => {},
-    logout: () => {}
+    logout: async () => {}
 });
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
     const [userData, setUserData] = useState<any | null>(null);
     const [loading, setLoading] = useState(true);
+    const [token, setToken] = useState<string | null>(null);
     const toast = useToast();
 
     const { t } = useTranslation();
@@ -47,38 +76,61 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     const validateToken = async (token: string) => {
         try {
+            // Set the token in the headers for this request
+            server.defaults.headers.common['Authorization'] = `Bearer ${token}`;
             const response = await server.get('/api/user');
             return response.data;
         } catch (error) {
+            console.error('Token validation error:', error);
+            // Clear the token from headers if validation fails
+            delete server.defaults.headers.common['Authorization'];
             return null;
         }
     };
 
+    // This effect runs once at component mount to check for stored auth token
     useEffect(() => {
         const checkAuth = async () => {
-            const token = localStorage.getItem('authToken');
-            if (token) {
-                try {
-                    const userData = await validateToken(token);
+            try {
+                setLoading(true);
+                const storedToken = await tokenStorage.getItem(TOKEN_KEY);
+
+                if (storedToken) {
+                    const userData = await validateToken(storedToken);
                     if (userData) {
                         setUserData(userData);
-                        server.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+                        setToken(storedToken);
+                    } else {
+                        // Token is invalid, remove it
+                        await tokenStorage.removeItem(TOKEN_KEY);
                     }
-                } catch (error) {
-                    console.error('Token validation failed:', error);
                 }
+            } catch (error) {
+                console.error('Auth check error:', error);
+            } finally {
+                setLoading(false);
             }
-            setLoading(false);
         };
 
         checkAuth();
     }, []);
 
+    // This effect runs whenever the token changes to update the auth header
+    useEffect(() => {
+        if (token) {
+            server.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        } else {
+            delete server.defaults.headers.common['Authorization'];
+        }
+    }, [token]);
+
     const login = async (email: string, password: string) => {
         try {
             const response = await server.post('/api/login', { email, password });
-            localStorage.setItem('authToken', response.data.token);
-            server.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
+            const newToken = response.data.token;
+
+            await tokenStorage.setItem(TOKEN_KEY, newToken);
+            setToken(newToken);
             setUserData(response.data.user);
         } catch (error) {
             showToast(t("auth.uhOh"), error.response?.data?.error || t("auth.error"));
@@ -87,18 +139,24 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     };
 
     const register = async (email: string, password: string, username: string) => {
-        const response = await server.post('/api/register', { email, password, username });
+        try {
+            const response = await server.post('/api/register', { email, password, username });
+            const newToken = response.data.token;
 
-        localStorage.setItem('authToken', response.data.token);
-        server.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
-        setUserData(response.data.user);
+            await tokenStorage.setItem(TOKEN_KEY, newToken);
+            setToken(newToken);
+            setUserData(response.data.user);
+        } catch (error) {
+            showToast(t("auth.uhOh"), error.response?.data?.error || t("auth.error"));
+            throw error;
+        }
     };
 
-
-    const logout = () => {
-        localStorage.removeItem('authToken');
-        delete server.defaults.headers.common['Authorization'];
+    const logout = async () => {
+        await tokenStorage.removeItem(TOKEN_KEY);
+        setToken(null);
         setUserData(null);
+        delete server.defaults.headers.common['Authorization'];
     };
 
     return (
