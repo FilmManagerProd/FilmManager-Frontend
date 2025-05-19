@@ -760,25 +760,25 @@ export default function ScannerScreen() {
                     style={{ flex: 1 }}
                 >
                     <HStack style={{ flex: 1, padding: 16, gap: 16 }}>
-                        {isMobileScreen ? (
-                            <VStack style={{ flex: 1, gap: isMobileScreen ? 0 : 24 }}>
+                            <Box style={{ flex: 1, gap: isMobileScreen ? 0 : 24, flexDirection: isSmallLaptop ? "column" : "row"}}>
                                 <VStack
                                     style={{
                                         flex: 1,
                                         justifyContent: "center",
                                         alignItems: "center",
                                         backgroundColor: "transparent",
-                                        padding: isMobileScreen ? 10 : 24
+                                        padding: isMobileScreen ? 10 : 0
                                     }}
                                 >
                                     <VStack
                                         style={{
+                                            marginTop: isSmallLaptop ? isMobileScreen ? 0 : 30 : 0,
                                             width: "100%",
                                             maxWidth: 500,
                                             backgroundColor: "white",
                                             borderRadius: 16,
-                                            padding: isMobileScreen ? 10 : 32,
-                                            gap: isMobileScreen ? 10 : 24,
+                                            padding: isSmallLaptop ? 20 : 32,
+                                            gap: 24,
                                             shadowColor: "#000",
                                             shadowOffset: { width: 0, height: 4 },
                                             shadowOpacity: 0.1,
@@ -788,8 +788,8 @@ export default function ScannerScreen() {
                                     >
                                         {/* Title Section */}
                                         <VStack style={{ gap: 8, alignItems: "center" }}>
-                                            <ScanIcon size={isMobileScreen ? 40 : 32} color="#3b82f6" style={{ display: isMobileScreen ? "none" : "flex" }} />
-                                            <Text style={{ fontSize: 16, fontWeight: "700", color: "#1e293b" }}>
+                                            <ScanIcon size={isMobileScreen ? 40 : 32} color="#3b82f6" style={{ display: isSmallLaptop ? "none" : "flex" }} />
+                                            <Text style={{ fontSize: isMobileScreen ? 16 : 20, fontWeight: "700", color: "#1e293b" }}>
                                                 {t('scanner.title')}
                                             </Text>
                                         </VStack>
@@ -823,15 +823,15 @@ export default function ScannerScreen() {
                                             </Input>
 
                                             {/* Barcode Type Notice */}
-                                            <HStack style={{ gap: 8, alignItems: "center", justifyContent: "center", display: scannedCode.length > 0 ? "none" : "flex" }}>
+                                            <HStack style={{ gap: 8, alignItems: "center", justifyContent: "center", display: isSmallLaptop ? "none" : "flex" }}>
                                                 <AlertTriangleIcon size={isMobileScreen ? 12 : 16} color="#64748b" />
                                                 <Text style={{ fontSize: 12, color: "#64748b", textAlign: "center", fontWeight: "500" }}>
                                                     {t('scanner.notice')}
                                                 </Text>
                                             </HStack>
 
-                                            <RadioGroup value={currentMode} onChange={setCurrentMode} style={{ justifyContent: "center", alignItems: "center", paddingBottom: pendingItems.length > 0 || pendingUnknownItems.length > 0 ? 0 : 10 }} >
-                                                <HStack space="sm" style={{ gap: 30 }}>
+                                            <RadioGroup value={currentMode} onChange={setCurrentMode} style={{ justifyContent: "center", alignItems: "center", marginTop: isMobileScreen ? 8 : isSmallLaptop ? 0 :  8 }} >
+                                                <HStack space="sm" style={{ gap: isMobileScreen ? 14 : 10 }}>
                                                     {radioOptions.map(({ value, key }) => (
                                                         <Radio key={value} value={value} size="sm"  >
                                                             <HStack style={{ alignItems: "center", gap: 6 }}>
@@ -841,8 +841,8 @@ export default function ScannerScreen() {
                                                                         borderColor: "#1B9CFF",
                                                                         borderWidth: 2,
                                                                         borderRadius: 9999,
-                                                                        width: 16,
-                                                                        height: 16,
+                                                                        width: isShortScreen ?  16 : 18,
+                                                                        height: isShortScreen ?  16 : 18,
                                                                         justifyContent: "center",
                                                                         alignItems: "center",
                                                                     }}
@@ -854,20 +854,20 @@ export default function ScannerScreen() {
                                                                                 borderColor: "#1B9CFF",
                                                                                 borderWidth: 2,
                                                                                 borderRadius: 9999,
-                                                                                width: 8,
-                                                                                height: 8,
+                                                                                width: isShortScreen ?  8 : 10,
+                                                                                height: isShortScreen ?  8 : 10,
                                                                             }}
                                                                         />
                                                                     )}
                                                                 </RadioIndicator>
                                                                 <RadioLabel
                                                                     style={{
-                                                                        fontSize: 10,
+                                                                        fontSize: isMobileScreen ? isShortScreen ? 10 : 14 : 14,
                                                                         fontWeight: "700",
                                                                         color: currentMode === value ? "#1B9CFF" : "#64748b",
                                                                     }}
                                                                 >
-                                                                    {t(key)}
+                                                                    {t(`scanner.radio.${value}`)}
                                                                 </RadioLabel>
                                                             </HStack>
                                                         </Radio>
@@ -883,10 +883,11 @@ export default function ScannerScreen() {
                                                     backgroundColor: "#f0fdf4",
                                                     borderRadius: 8,
                                                     padding: isMobileScreen ? 6 : 16,
-                                                    alignItems: "center"
+                                                    gap: isMobileScreen ? 0 : 8,
+                                                    alignItems: "center",
                                                 }}
                                             >
-                                                <HStack style={{ gap: 8, alignItems: "center", justifyContent: "center", }}>
+                                                <HStack style={{ gap: 8, alignItems: "center" }}>
                                                     <CheckCircleIcon size={isMobileScreen ? 14 : 20} color="#16a34a" />
                                                     <Text style={{ fontSize: 14, fontWeight: "500", color: "#166534" }}>
                                                         {t('scanner.scannedResult.lastScanned')}
@@ -895,7 +896,7 @@ export default function ScannerScreen() {
                                                 <Text
                                                     isTruncated={true}
                                                     style={{
-                                                        fontSize: isMobileScreen ? 20 : 18,
+                                                        fontSize: isMobileScreen ? 20 : 24,
                                                         fontWeight: "600",
                                                         color: "#166534",
                                                         letterSpacing: 2,
@@ -914,13 +915,13 @@ export default function ScannerScreen() {
                                     style={{
                                         flex: 1,
                                         justifyContent: "center",
-                                        alignItems: "center",
+                                        alignItems: isMobileScreen ? "center" : "flex-start",
                                         backgroundColor: "transparent",
-                                        padding: isMobileScreen ? 10 : 24
+                                        padding: isShortScreen ? 0 : pendingItems.length > 0 || pendingUnknownItems.length > 0 ? isSmallLaptop ? 10 : isMediumLaptop ? 30 : 100 : 0,
                                     }}
                                 >
-                                    <VStack style={{ flex: 1, width: "100%" }}>
-                                        <ScrollView style={{ flex: 1, width: "100%", padding: 0 }}>
+                                    <VStack style={{ width: "100%" }}>
+                                        <ScrollView style={{ flex: 1, width: "100%", padding: isMobileScreen ? 0 : 10 }}>
                                             <VStack style={{ gap: 16 }}>
                                                 {Object.entries(groupedItems).length > 0 ? (
                                                     Object.entries(groupedItems).map(([group, items]) => (
@@ -932,7 +933,7 @@ export default function ScannerScreen() {
                                                             {/* Group Header */}
                                                             <HStack style={{
                                                                 alignItems: "center", gap: 10, padding: 12,
-                                                                backgroundColor: "#eef2ff", borderRadius: 16, marginBottom: 8, flex: 1
+                                                                backgroundColor: "#eef2ff", borderRadius: 16, flex: 1, marginBottom: isMobileScreen ? 8 : 0
                                                             }}>
                                                                 <Box style={{ position: 'relative', flexDirection: 'row', alignItems: 'center' }}>
                                                                     <Checkbox
@@ -968,12 +969,12 @@ export default function ScannerScreen() {
                                                                         backgroundColor: currentMode === "dispatch" && item.sessionCount > item.totalCount ? "#FEE2E2" : "#ffffff",
                                                                         borderRadius: 20,
                                                                         padding: 16,
-                                                                        marginVertical: 4,
+                                                                        marginVertical: isMobileScreen ? 4 : 0,
                                                                         shadowColor: "#000",
                                                                         shadowOffset: { width: 0, height: 2 },
                                                                         shadowOpacity: 0.05,
                                                                         shadowRadius: 6,
-                                                                        elevation: 2,
+                                                                        elevation: 2
                                                                     }}
                                                                 >
                                                                     <Box
@@ -985,6 +986,7 @@ export default function ScannerScreen() {
                                                                             height: 100,
                                                                             borderRadius: 8,
                                                                             overflow: 'hidden',
+                                                                            display: isMobileScreen ? "flex" : "none"
                                                                         }}
                                                                     >
                                                                         <Image
@@ -1024,442 +1026,6 @@ export default function ScannerScreen() {
                                                                                 </Checkbox>
                                                                             </Box>
 
-                                                                            {/* Item Details */}
-                                                                            <VStack style={{ flex: 1, gap: 6 }}>
-                                                                                <HStack style={{ alignItems: "center", gap: 8, justifyContent: "flex-start", flexWrap: "wrap", width: "100%" }}>
-                                                                                    <Text isTruncated={true} style={{
-                                                                                        fontSize: isMobileScreen ? 20 : 18, fontWeight: "800", color: "#1e293b",
-                                                                                        textShadowColor: "rgba(79, 70, 229, 0.1)",
-                                                                                        textShadowOffset: { width: 1, height: 1 },
-                                                                                        textShadowRadius: 2,
-                                                                                        width: "auto"
-                                                                                    }}>
-                                                                                        {item.barcode}
-                                                                                    </Text>
-                                                                                    <Box
-                                                                                        style={{
-                                                                                            backgroundColor: "#f1f5f9",
-                                                                                            paddingHorizontal: 6,
-                                                                                            paddingVertical: 2,
-                                                                                            borderRadius: 6,
-                                                                                            flexDirection: "row",
-                                                                                            gap: 6,
-                                                                                            alignItems: "center",
-                                                                                            justifyContent: "center",
-                                                                                            alignSelf: "center",
-                                                                                        }}
-                                                                                    >
-                                                                                        {/* <Button onPress={() => handleDecrease(item.barcode)} style={{ backgroundColor: "transparent" }}>
-                                                                                                <ButtonText style={{ fontSize: 18, fontWeight: "700", color: "#94a3b8" }}>−</ButtonText>
-                                                                                            </Button> */}
-
-                                                                                        <Text
-                                                                                            style={{
-                                                                                                fontSize: 16,
-                                                                                                fontWeight: "700",
-                                                                                                color: "#64748b",
-                                                                                                textAlign: "center",
-                                                                                                minWidth: 28,
-                                                                                            }}
-                                                                                        >
-                                                                                            X{item.sessionCount}
-                                                                                        </Text>
-
-                                                                                        {/* <Button onPress={() => handleIncrease(item.barcode)} disabled={currentMode === "dispatch" && item.sessionCount >= item.totalCount} style={{ backgroundColor: "transparent" }}>
-                                                                                                <ButtonText style={{ fontSize: 18, fontWeight: "700", color: "#94a3b8" }}>+</ButtonText>
-                                                                                            </Button> */}
-                                                                                    </Box>
-                                                                                </HStack>
-
-                                                                                <Text isTruncated={true} style={{
-                                                                                    fontSize: isMobileScreen ? 20 : 18,
-                                                                                    fontWeight: "600",
-                                                                                    color: "#334155",
-                                                                                    fontStyle: item.itemName ? "normal" : "italic"
-                                                                                }}>
-                                                                                    {item.itemName || t('scanner.item.unnamed')}
-                                                                                </Text>
-
-                                                                                <Text isTruncated={true} style={{
-                                                                                    fontSize: isMobileScreen ? 12 : 14,
-                                                                                    fontWeight: "600",
-                                                                                    color: "#334155",
-                                                                                    fontStyle: item.itemName ? "normal" : "italic"
-                                                                                }}>
-                                                                                    {item.itemDescription || t('scanner.item.noDescription')}
-                                                                                </Text>
-
-                                                                                <HStack style={{ gap: 8, flexWrap: "wrap" }}>
-                                                                                    <HStack style={{
-                                                                                        backgroundColor: "#f8fafc",
-                                                                                        padding: 6,
-                                                                                        borderRadius: 8,
-                                                                                        alignItems: "center",
-                                                                                        gap: 4
-                                                                                    }}>
-                                                                                        <WarehouseIcon size={14} color="#94a3b8" style={{ minWidth: 14 }} />
-                                                                                        <Text isTruncated={true} style={{ fontSize: 14, color: "#64748b", fontWeight: "500" }}>
-                                                                                            {item.location || t('scanner.item.unknownLocation')}
-                                                                                        </Text>
-                                                                                    </HStack>
-
-                                                                                    <HStack style={{
-                                                                                        backgroundColor: item.totalCount <= 10 ? "#fef2f2" : item.totalCount <= 100 ? "#fefce8" : "#f0fdf4",
-                                                                                        padding: 6,
-                                                                                        borderRadius: 8,
-                                                                                        alignItems: "center",
-                                                                                        gap: 8
-                                                                                    }}>
-                                                                                        <Box style={{ minWidth: 8, width: 8, height: 8, backgroundColor: item.totalCount <= 10 ? "#fca5a5" : item.totalCount <= 100 ? "#fde68a" : "#86efac", borderRadius: 4, marginLeft: 4 }} />
-                                                                                        <Text isTruncated={true} style={{
-                                                                                            fontSize: 14,
-                                                                                            color: item.totalCount <= 10 ? "#991b1b" : item.totalCount <= 100 ? "#92400e" : "#166534",
-                                                                                            fontWeight: "600"
-                                                                                        }}>
-                                                                                            {t('scanner.stock', { count: item.totalCount })}
-                                                                                        </Text>
-                                                                                    </HStack>
-                                                                                </HStack>
-                                                                            </VStack>
-                                                                        </HStack>
-
-                                                                        {/* Action Buttons */}
-                                                                        <HStack style={{ gap: 8, alignItems: "center" }}>
-                                                                            <Button
-                                                                                size="md"
-                                                                                action="secondary"
-                                                                                onPress={() => handleEdit(item)}
-                                                                                isDisabled={isLoading}
-                                                                                style={{
-                                                                                    padding: 8,
-                                                                                    borderRadius: 12,
-                                                                                    backgroundColor: "transparent"
-                                                                                }}
-                                                                            >
-                                                                                <PencilIcon size={20} color="#4f46e5" />
-                                                                            </Button>
-
-                                                                            <Button
-                                                                                size="md"
-                                                                                action="secondary"
-                                                                                onPress={() => handleRemove(item.id)}
-                                                                                isDisabled={isLoading}
-                                                                                style={{
-                                                                                    padding: 8,
-                                                                                    borderRadius: 12,
-                                                                                    backgroundColor: "transparent"
-                                                                                }}
-                                                                            >
-                                                                                <MinusCircleIcon size={20} color="#dc2626" />
-                                                                            </Button>
-                                                                        </HStack>
-                                                                    </HStack>
-
-                                                                    {/* Points Display*/}
-                                                                    <HStack style={{
-                                                                        marginTop: 12,
-                                                                        padding: 10,
-                                                                        borderRadius: 12,
-                                                                        backgroundColor: "rgba(255, 215, 0, 0.1)",
-                                                                        borderWidth: 1,
-                                                                        borderColor: "rgba(255, 215, 0, 0.3)",
-                                                                        alignItems: "center",
-                                                                        gap: 8
-                                                                    }}>
-                                                                        <SparklesIcon size={16} color="#eab308" style={{ minWidth: 16 }} />
-                                                                        <Text isTruncated={true} style={{
-                                                                            fontSize: 16,
-                                                                            fontWeight: "700",
-                                                                            color: "#eab308",
-                                                                            textShadowColor: "rgba(234, 179, 8, 0.2)",
-                                                                            textShadowOffset: { width: 0, height: 0 },
-                                                                            textShadowRadius: 4
-                                                                        }}>
-                                                                            {t('scanner.requiredPoints', { count: item.pointsToRedeem })}
-                                                                        </Text>
-                                                                    </HStack>
-                                                                </VStack>
-                                                            ))}
-                                                        </VStack>
-                                                    ))
-                                                ) : (
-                                                    <VStack
-                                                        style={{
-                                                            margin: "auto",
-                                                            width: "100%",
-                                                            maxWidth: 500,
-                                                            backgroundColor: "#f8fafc",
-                                                            borderRadius: 16,
-                                                            padding: 32,
-                                                            gap: 16,
-                                                            alignItems: "center",
-                                                            justifyContent: "center",
-                                                            shadowColor: "#000",
-                                                            shadowOffset: { width: 0, height: 4 },
-                                                            shadowOpacity: 0.1,
-                                                            shadowRadius: 8,
-                                                            elevation: 4,
-                                                        }}
-                                                    >
-                                                        <HStack style={{ gap: 8, alignItems: "center" }}>
-                                                            <ScanIcon size={24} color="#3b82f6" />
-                                                            <Text
-                                                                style={{
-                                                                    fontSize: 14,
-                                                                    fontWeight: "600",
-                                                                    color: "black",
-                                                                    textAlign: "center",
-                                                                    letterSpacing: 1
-                                                                }}
-                                                            >
-                                                                {t('scanner.emptyState.title')}
-                                                            </Text>
-                                                        </HStack>
-                                                    </VStack>
-                                                )}
-                                            </VStack>
-                                        </ScrollView>
-                                    </VStack>
-                                </VStack>
-                            </VStack>
-                        ) : (
-                            <>
-                                <VStack
-                                    style={{
-                                        flex: 1,
-                                        justifyContent: "center",
-                                        alignItems: "center",
-                                        backgroundColor: "transparent",
-                                    }}
-                                >
-                                    <VStack
-                                        style={{
-                                            width: "100%",
-                                            maxWidth: 500,
-                                            backgroundColor: "white",
-                                            borderRadius: 16,
-                                            padding: 32,
-                                            gap: 24,
-                                            shadowColor: "#000",
-                                            shadowOffset: { width: 0, height: 4 },
-                                            shadowOpacity: 0.1,
-                                            shadowRadius: 8,
-                                            elevation: 4
-                                        }}
-                                    >
-                                        {/* Title Section */}
-                                        <VStack style={{ gap: 8, alignItems: "center" }}>
-                                            <ScanIcon size={32} color="#3b82f6" />
-                                            <Text style={{ fontSize: 20, fontWeight: "700", color: "#1e293b" }}>
-                                                {t('scanner.title')}
-                                            </Text>
-                                        </VStack>
-
-                                        {/* Input Field */}
-                                        <VStack style={{ gap: 12 }}>
-                                            <Input isDisabled={isLoading} variant="outline">
-                                                <InputField
-                                                    ref={scanInputRef}
-                                                    placeholder={isFocused ? "" : t('scanner.placeholder')}
-                                                    value={currentScan}
-                                                    onChangeText={(text) => {
-                                                        setCurrentScan(text);
-                                                        if (text.endsWith("\n")) {
-                                                            setCurrentScan(text.trim());
-                                                            handleScannedItems();
-                                                        }
-                                                    }}
-                                                    onSubmitEditing={handleScannedItems}
-                                                    returnKeyType="done"
-                                                    onFocus={() => setIsFocused(true)}
-                                                    onBlur={() => setIsFocused(false)}
-                                                    style={{
-                                                        height: 48,
-                                                        fontSize: 16,
-                                                        textAlign: "center",
-                                                        borderRadius: 8,
-                                                        backgroundColor: "#f8fafc"
-                                                    }}
-                                                />
-                                            </Input>
-
-                                            {/* Barcode Type Notice */}
-                                            <HStack style={{ gap: 8, alignItems: "center", justifyContent: "center" }}>
-                                                <AlertTriangleIcon size={16} color="#64748b" />
-                                                <Text style={{ fontSize: 12, color: "#64748b", textAlign: "center", fontWeight: "500" }}>
-                                                    {t('scanner.notice')}
-                                                </Text>
-                                            </HStack>
-
-                                            <RadioGroup value={currentMode} onChange={setCurrentMode} style={{ justifyContent: "center", alignItems: "center", marginTop: 8 }} >
-                                                <HStack space="sm" style={{ gap: 10 }}>
-                                                    {radioOptions.map(({ value, key }) => (
-                                                        <Radio key={value} value={value} size="sm"  >
-                                                            <HStack style={{ alignItems: "center", gap: 6 }}>
-                                                                <RadioIndicator
-                                                                    style={{
-                                                                        backgroundColor: "white",
-                                                                        borderColor: "#1B9CFF",
-                                                                        borderWidth: 2,
-                                                                        borderRadius: 9999,
-                                                                        width: 18,
-                                                                        height: 18,
-                                                                        justifyContent: "center",
-                                                                        alignItems: "center",
-                                                                    }}
-                                                                >
-                                                                    {currentMode === value && (
-                                                                        <RadioIndicator
-                                                                            style={{
-                                                                                backgroundColor: currentMode === value ? "#1B9CFF" : "white",
-                                                                                borderColor: "#1B9CFF",
-                                                                                borderWidth: 2,
-                                                                                borderRadius: 9999,
-                                                                                width: 10,
-                                                                                height: 10,
-                                                                            }}
-                                                                        />
-                                                                    )}
-                                                                </RadioIndicator>
-                                                                <RadioLabel
-                                                                    style={{
-                                                                        fontSize: 14,
-                                                                        fontWeight: "700",
-                                                                        color: currentMode === value ? "#1B9CFF" : "#64748b",
-                                                                    }}
-                                                                >
-                                                                    {t(`scanner.radio.${value}`)}
-                                                                </RadioLabel>
-                                                            </HStack>
-                                                        </Radio>
-                                                    ))}
-                                                </HStack>
-                                            </RadioGroup>
-                                        </VStack>
-
-                                        {/* Scanned Result Display */}
-                                        {scannedCode && (
-                                            <VStack
-                                                style={{
-                                                    backgroundColor: "#f0fdf4",
-                                                    borderRadius: 8,
-                                                    padding: 16,
-                                                    gap: 8,
-                                                    alignItems: "center"
-                                                }}
-                                            >
-                                                <HStack style={{ gap: 8, alignItems: "center" }}>
-                                                    <CheckCircleIcon size={20} color="#16a34a" />
-                                                    <Text style={{ fontSize: 14, fontWeight: "500", color: "#166534" }}>
-                                                        {t('scanner.scannedResult.lastScanned')}
-                                                    </Text>
-                                                </HStack>
-                                                <Text
-                                                    isTruncated={true}
-                                                    style={{
-                                                        fontSize: 24,
-                                                        fontWeight: "600",
-                                                        color: "#166534",
-                                                        letterSpacing: 2,
-                                                        width: "90%",
-                                                        textAlign: "center"
-                                                    }}
-                                                >
-                                                    {scannedCode}
-                                                </Text>
-                                            </VStack>
-                                        )}
-                                    </VStack>
-                                </VStack>
-
-                                <VStack
-                                    style={{
-                                        flex: 1,
-                                        justifyContent: "center",
-                                        alignItems: "flex-start",
-                                        backgroundColor: "transparent",
-                                        padding: isShortScreen ? 0 : pendingItems.length > 0 || pendingUnknownItems.length > 0 ? isSmallLaptop ? 10 : isMediumLaptop ? 30 : 100 : 0,
-                                    }}
-                                >
-                                    <VStack style={{ width: "100%" }}>
-                                        <ScrollView style={{ flex: 1, width: "100%", padding: 10 }}>
-                                            <VStack style={{ gap: 16 }}>
-                                                {Object.entries(groupedItems).length > 0 ? (
-                                                    Object.entries(groupedItems).map(([group, items]) => (
-                                                        <VStack key={group} style={{
-                                                            gap: 12, backgroundColor: "white", padding: 16, borderRadius: 24,
-                                                            shadowColor: "#4f46e5", shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.1,
-                                                            shadowRadius: 12, elevation: 8, marginVertical: 8
-                                                        }}>
-                                                            {/* Group Header */}
-                                                            <HStack style={{
-                                                                alignItems: "center", gap: 10, padding: 12,
-                                                                backgroundColor: "#eef2ff", borderRadius: 16, flex: 1
-                                                            }}>
-                                                                <Box style={{ position: 'relative', flexDirection: 'row', alignItems: 'center' }}>
-                                                                    <Checkbox
-                                                                        value={`select-group-${group}`}
-                                                                        size="md"
-                                                                        isChecked={areAllGroupItemsSelected(items)}
-                                                                        onChange={() => toggleSelectGroup(group)}
-                                                                        style={{
-                                                                            display: currentMode === "info" ? "none" : "flex",
-                                                                        }}
-                                                                    >
-                                                                        <CheckboxIndicator style={{
-                                                                            backgroundColor: areAllGroupItemsSelected(items) ? "#1B9CFF" : "white",
-                                                                            borderColor: "#1B9CFF",
-                                                                            borderRadius: 6
-                                                                        }}>
-                                                                            <CheckboxIcon as={CheckIcon} color="white" />
-                                                                        </CheckboxIndicator>
-                                                                    </Checkbox>
-                                                                </Box>
-                                                                <Text style={{
-                                                                    fontSize: 20, fontWeight: "900", color: "#4f46e5",
-                                                                    letterSpacing: -0.5, textTransform: "uppercase"
-                                                                }}>
-                                                                    {t(`itemsManagement.groups.${group}`, { defaultValue: group })}
-                                                                </Text>
-                                                            </HStack>
-
-                                                            {items.map((item) => (
-                                                                <VStack
-                                                                    key={item.id}
-                                                                    style={{
-                                                                        backgroundColor: currentMode === "dispatch" && item.sessionCount > item.totalCount ? "#FEE2E2" : "#ffffff",
-                                                                        borderRadius: 20,
-                                                                        padding: 16,
-                                                                        shadowColor: "#000",
-                                                                        shadowOffset: { width: 0, height: 2 },
-                                                                        shadowOpacity: 0.05,
-                                                                        shadowRadius: 6,
-                                                                        elevation: 2
-                                                                    }}
-                                                                >
-                                                                    <HStack style={{ justifyContent: "space-between", alignItems: "center" }}>
-                                                                        {/* Selection & Main Info */}
-                                                                        <HStack style={{ flex: 1, gap: 12, alignItems: "center" }}>
-                                                                            <Box style={{ position: 'relative' }}>
-                                                                                <Checkbox
-                                                                                    value="selectItems"
-                                                                                    size="md"
-                                                                                    isChecked={selectedIds.has(item.id)}
-                                                                                    onChange={() => toggleSelect(item.id)}
-                                                                                    style={{
-                                                                                        display: currentMode === "info" ? "none" : "flex",
-                                                                                    }}
-                                                                                >
-                                                                                    <CheckboxIndicator style={{
-                                                                                        backgroundColor: selectedIds.has(item.id) ? "#1B9CFF" : "white",
-                                                                                        borderColor: "#1B9CFF",
-                                                                                        borderRadius: 6
-                                                                                    }}>
-                                                                                        <CheckboxIcon as={CheckIcon} color="white" />
-                                                                                    </CheckboxIndicator>
-                                                                                </Checkbox>
-                                                                            </Box>
-
                                                                             <Box
                                                                                 style={{
                                                                                     width: 96,
@@ -1467,6 +1033,7 @@ export default function ScannerScreen() {
                                                                                     marginLeft: 4,
                                                                                     borderRadius: 8,
                                                                                     overflow: 'hidden',
+                                                                                    display: isMobileScreen ? "none" : "flex"
                                                                                 }}
                                                                             >
                                                                                 <Image
@@ -1664,7 +1231,7 @@ export default function ScannerScreen() {
                                                             <ScanIcon size={24} color="#3b82f6" />
                                                             <Text
                                                                 style={{
-                                                                    fontSize: 16,
+                                                                    fontSize: isMobileScreen ? 14 : 16,
                                                                     fontWeight: "600",
                                                                     color: "black",
                                                                     textAlign: "center",
@@ -1680,8 +1247,7 @@ export default function ScannerScreen() {
                                         </ScrollView>
                                     </VStack>
                                 </VStack>
-                            </>
-                        )}
+                            </Box>
                     </HStack>
                     <HStack
                         style={{
