@@ -169,74 +169,86 @@ export default function TabLayout() {
     };
 
     return (
-        <Tabs
-            screenOptions={{
-                tabBarStyle: isLargeScreen
-                    ? { display: "none" }
-                    : {
-                        backgroundColor: "#fff",
-                        borderTopColor: "#ccc"
+        <>
+            <Tabs
+                screenOptions={{
+                    tabBarStyle: isLargeScreen
+                        ? { display: "none" }
+                        : {
+                            backgroundColor: "#fff",
+                            borderTopColor: "#ccc",
+                        },
+                    tabBarActiveTintColor: "#e11d48",
+                    tabBarShowLabel: true,
+                    tabBarLabelStyle: {
+                        fontSize: 12,
+                        fontWeight: "bold",
+                        textTransform: "capitalize",
                     },
-                tabBarActiveTintColor: "#e11d48",
-                tabBarShowLabel: true,
-                tabBarLabelStyle: {
-                    fontSize: 12,
-                    fontWeight: "bold",
-                    textTransform: "capitalize"
-                },
-                headerStyle: {
-                    backgroundColor: "#fff",
-                    borderBottomColor: "#ccc"
-                },
-                headerTintColor: "#000",
-                headerShown: isLargeScreen,
-                header: () => <CustomHeader />
-            }}
-        >
-            <Tabs.Screen
-                name="index"
-                options={{
-                    title: "Home",
-                    tabBarIcon: ({ color }) => <Icon as={HouseIcon as any} color={color} />
+                    headerStyle: {
+                        backgroundColor: "#fff",
+                        borderBottomColor: "#ccc",
+                    },
+                    headerTintColor: "#000",
+                    headerShown: isLargeScreen,
+                    header: () => <CustomHeader />,
                 }}
-            />
-            <Tabs.Screen
-                name="auth/account"
-                options={{
-                    title: "Profile",
-                    tabBarIcon: ({ color }) => <Icon as={User2 as any} color={color} />
-                }}
-            />
-            <Tabs.Screen
-                name="admin/scanner"
-                options={{
-                    href: null
-                }}
-            />
-            <Tabs.Screen
-                name="client/redeem"
-                options={{
-                    href: null
-                }}
-            />
-            <Tabs.Screen
-                name="client/rewards"
-                options={{
-                    href: null
-                }}
-            />
-            <Tabs.Screen
-                name="admin/itemsmanagement"
-                options={{
-                    href: null
-                }}
-            />
-            <Tabs.Screen
-                name="admin/usermanagement"
-                options={{
-                    href: null
-                }}
-            />
-        </Tabs>
+            >
+                <Tabs.Screen
+                    name="index"
+                    options={{
+                        title: "Home",
+                        tabBarIcon: ({ color }) => <Icon as={HouseIcon as any} color={color} />,
+                    }}
+                />
+                <Tabs.Screen
+                    name="auth/account"
+                    options={{
+                        title: "Profile",
+                        tabBarIcon: ({ color }) => <Icon as={User2 as any} color={color} />,
+                    }}
+                />
+                <Tabs.Screen name="admin/scanner" options={{ href: null }} />
+                <Tabs.Screen name="client/redeem" options={{ href: null }} />
+                <Tabs.Screen name="client/rewards" options={{ href: null }} />
+                <Tabs.Screen name="admin/itemsmanagement" options={{ href: null }} />
+                <Tabs.Screen name="admin/usermanagement" options={{ href: null }} />
+            </Tabs>
+
+            {/* Floating Translate Button */}
+            {!isLargeScreen && (
+                <Pressable
+                    onPress={() => {
+                        const newLang = i18n.language === 'cn' ? 'en' : 'cn';
+                        i18n.changeLanguage(newLang);
+                        localStorage.setItem('i18nextLng', newLang);
+                    }}
+                    style={{
+                        position: 'absolute',
+                        bottom: 5,
+                        left: '50%',
+                        transform: [{ translateX: -40 }],
+                        backgroundColor: '#f3f4f6',
+                        paddingVertical: 8,
+                        paddingHorizontal: 12,
+                        borderRadius: 20,
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        zIndex: 100,
+                        elevation: 4,
+                        shadowColor: '#000',
+                        shadowOffset: { width: 0, height: 2 },
+                        shadowOpacity: 0.25,
+                        shadowRadius: 4,
+                    }}
+                >
+                    <Icon as={GlobeIcon} size="sm" color="#4b5563" />
+                    <Text style={{ marginLeft: 6, color: '#1f2937', fontSize: 14 }}>
+                        {i18n.language === 'cn' ? '中文' : 'EN'}
+                    </Text>
+                </Pressable>
+            )}
+
+        </>
     );
 }
